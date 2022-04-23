@@ -18,7 +18,7 @@ type SendProps = RouteComponentProps & {
 }
 
 export const Send = ({ waku }: SendProps) => {
-	const received = useRef<Shortcode[]>([])
+	const [received, setReceived] = useState<Shortcode[]>([])
 	const [input, setInput] = useState<number>()
 	const [message, setMessage] = useState('')
 
@@ -26,7 +26,7 @@ export const Send = ({ waku }: SendProps) => {
 		event.preventDefault()
 		const found = []
 
-		for (const shortcode of received.current) {
+		for (const shortcode of received) {
 			if (shortcode.hashcash.shortcode === input) {
 				found.push(shortcode)
 			}
@@ -57,8 +57,6 @@ export const Send = ({ waku }: SendProps) => {
 			}
 
 			const shortcode = Shortcode.decode(message.payload)
-
-			console.log(shortcode)
 
 			if (shortcode.hashcash.bits < SHORTCODE_BITS) {
 				throw new Error('Not enough zeroed out bits in hashcash')
@@ -105,7 +103,7 @@ export const Send = ({ waku }: SendProps) => {
 			// TODO: Check block hash
 
 			console.log('Got valid shortcode:', shortcode)
-			received.current.push(shortcode)
+			setReceived((received) => [...received, shortcode])
 		}
 
 		waku.relay.addObserver(onMessage, [SHORTCODE_TOPIC])
@@ -127,10 +125,21 @@ export const Send = ({ waku }: SendProps) => {
 					max="99999"
 					step="0"
 					onChange={(event) => setInput(parseInt(event.currentTarget.value))}
+					value={input}
 				/>
 				<button type="submit">Check</button>
 			</form>
 			{message && <p>{message}</p>}
+			{!!received.length && (
+				<>
+					<p>The following valid shortcodes have been seen on the network:</p>
+					{received.map(({ hashcash }) => (
+						<button onClick={() => setInput(hashcash.shortcode)}>
+							{hashcash.shortcode}
+						</button>
+					))}
+				</>
+			)}
 		</div>
 	)
 }
