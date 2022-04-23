@@ -2,6 +2,11 @@
 
 ## Protocol
 
+![image](https://user-images.githubusercontent.com/9036081/164948852-345667af-765c-4055-b827-23fa3f2ba56a.png)
+
+![image](https://user-images.githubusercontent.com/9036081/164948872-d1727651-df69-412f-9a04-154a20bc9a9e.png)
+
+
 See [PROTOCOL.md](docs/PROTOCOL.md).
 
 ## Run the project
