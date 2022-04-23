@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+message TemporaryHashcash {
+    uint32 bits = 1;
+    uint64 date = 2;
+    bytes blockHash = 3;
+    bytes random = 4;
+}
+
+message Hashcash {
+    uint32 bits = 1;
+    uint64 date = 2;
+    uint32 shortcode = 3;
+    bytes blockHash = 4;
+    bytes random = 5;
+    bytes counter = 6;
+}
+
+message Shortcode {
+    Hashcash hashcash = 1;
+    bytes signature = 2;
+    bytes publicKey = 3;
+}
