@@ -8,7 +8,7 @@
 
 1. Bob starts listening to the shortcode channel
 2. Alice creates a partial hashcash header that doesn't contain the resource and counter fields, signs it, and derives the shortcode from that signature (see later)
-3. Aice sends a message containing:
+3. Alice sends a message containing:
    1. a hashcash header with resource = derived shortcode
    2. a signature with `PrivA` of the hashcash header info excluding the counter and shortcode (resource)
    3. `PubA`
